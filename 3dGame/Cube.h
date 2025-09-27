@@ -12,11 +12,11 @@ public:
 
 	void draw(SDL_Renderer* r, bool perspective=false, double fov=600.0, double zcam = 5.0, SDL_Color color = {0,0,0,255}) const override;
 
-private:
-	std::array<std::array<int, 2>, 12> edges;
+	const std::vector<std::array<int, 2>>& getEdges() const override { return edges; }
 
-	static void makeIdentity(double R[3][3]);
-	static Vector3 mul(const double m[3][3], const Vector3& v);
-	static void rotXYZ(double ax, double ay, double az, double R[3][3]);
+private:
+	std::vector<std::array<int, 2>> edges;
+
+	
 };
 

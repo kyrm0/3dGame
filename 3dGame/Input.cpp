@@ -32,6 +32,9 @@ void Input::processInput(SDL_Event e, float dt)
     if (auto* obj = object::getObjectById(ID_RECT1)) {
         obj->moveBy(dx, dy);
     }
+    if (auto* obj = Object3d::getObjectById(2)) {
+        obj->update(dax, day, daz);
+    }
 
 }
 
@@ -51,6 +54,9 @@ void Input::processScrollWheelInput(SDL_Event e)
 
     if (e.type == SDL_EVENT_MOUSE_WHEEL) {
         if (auto* obj = Object3d::getObjectById(1)) {
+            obj->scaleBy(e.wheel.y);
+        }
+        if (auto* obj = Object3d::getObjectById(2)) {
             obj->scaleBy(e.wheel.y);
         }
     }
