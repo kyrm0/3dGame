@@ -8,6 +8,10 @@ struct Vector3
 	double x, y, z;
 };
 
+struct Vector2 {
+	double x, y;
+};
+
 class Cube
 {
 public:
@@ -16,6 +20,10 @@ public:
 	void update(double dax, double day, double daz);
 	void draw(SDL_Renderer* r, bool perspective=false, double fov=600.0, double zcam = 5.0) const;
 
+	Vector2 getPos();
+
+	void updatePos(Vector2 newPos);
+
 private:
 	std::vector<Vector3> model;
 	int edges[12][2];
@@ -23,6 +31,7 @@ private:
 	mutable std::vector<Vector3> scratch; // transformed vertices
 	double ax, ay, az;
 
+	static void makeIdentity(double R[3][3]);
 	static Vector3 mul(const double m[3][3], const Vector3& v);
 	static void rotXYZ(double ax, double ay, double az, double R[3][3]);
 	static Vector3 project(const Vector3& v, double cx, double cy, double fov, double zcam, bool perspective);

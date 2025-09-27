@@ -1,12 +1,12 @@
 #pragma once
 #include "object.h"
 
-class Rectangle : public object
+class Rect : public object
 {
 public:
-	Rectangle(float x, float y, int w, int h, SDL_Color color, int id);
-	~Rectangle() = default;
-	void draw(SDL_Renderer* renderer) override;
+	using object::object;
+	~Rect() = default;
+	void draw(SDL_Renderer* renderer, bool onlyOutline) override;
 private:
 
 };

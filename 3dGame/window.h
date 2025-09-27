@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_opengl.h>
+#include "object.h"
 class Window
 {
 public:
@@ -20,6 +21,9 @@ private:
 	const char* title = "";
 	int width;
 	int height;
+	object* o;
 	SDL_WindowFlags flags;
+	void clearScreen();
+	void makeObjects2d(object* o);
 };
 

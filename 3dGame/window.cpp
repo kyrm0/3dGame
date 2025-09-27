@@ -6,11 +6,8 @@
 
 
 Window::Window(const char* title, int w, int h, SDL_WindowFlags flags)
+	:title(title), width(w), height(h), flags(flags)
 {
-	this->title = title;
-	this->width = w;
-	this->height = h;
-	this->flags = flags;
 	this->w = createWindow(); // Initialize to nullptr
 	this->r = createRenderer(); // Initialize to nullptr
 	/*this->glContext = createGLContext();*/
@@ -18,7 +15,7 @@ Window::Window(const char* title, int w, int h, SDL_WindowFlags flags)
 }
 void Window::mainLoop()
 {
-	Cube cube(150, this->width * 0.5, this->height * 0.5);
+	Cube cube(100, this->width * 0.5, this->height * 0.5);
 	SDL_Log("made cube at %f %f", (double)this->width * 0.5, (double)this->height * 0.5);
 	bool isRunning = true;
 	Uint64 last = SDL_GetPerformanceCounter();
@@ -30,16 +27,19 @@ void Window::mainLoop()
 			}
 
 		}
+
+		
 		
 		float dt = Input::getFrameDeltaTime(last);
-		cube.update(0.01, 0.013, 0.017);
-		SDL_SetRenderDrawColor(this->r, 255, 255, 255, 255);
-		SDL_RenderClear(this->r);
+		Input::processInput(event, cube, dt);
+		
+		clearScreen();
+
 		SDL_SetRenderDrawColor(this->r, 0, 0, 0, 255);
 		// Render stuff here
-		/*object::drawObjects(this->r);*/
+		object::drawObjects(this->r);
 		cube.draw(this->r, false);
-		/*Input::processInput(event, dt);*/
+		
 		SDL_RenderPresent(this->r);
 	}
 }
@@ -65,6 +65,12 @@ SDL_Renderer* Window::createRenderer()
 SDL_GLContext Window::createGLContext()
 {
 	return SDL_GL_CreateContext(this->w);
+}
+
+void Window::clearScreen()
+{
+	SDL_SetRenderDrawColor(this->r, 255, 255, 255, 255);
+	SDL_RenderClear(this->r);
 }
 
 

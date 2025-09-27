@@ -1,24 +1,36 @@
 #include "Input.h"
 
-void Input::processInput(SDL_Event e, float deltaTT)
+void Input::processInput(SDL_Event e, Cube& c, float dt)
 {
-	const bool* ks = SDL_GetKeyboardState(nullptr);
+    SDL_PumpEvents(); // ensure keyboard state is current
+    const bool* ks = SDL_GetKeyboardState(nullptr);
+    double rotSpeed = 1.5;
+    double dax = 0, day = 0, daz = 0;
+    double moveSpeed = 50.0;
+    float dx = 0, dy = 0;
 
-	int ax = 0, ay = 0;
-	if (ks[SDL_SCANCODE_A]) ax -= 1;
-	if (ks[SDL_SCANCODE_D]) ax += 1;
-	if (ks[SDL_SCANCODE_W]) ay -= 1;
-	if (ks[SDL_SCANCODE_S]) ay += 1;
+    // Fix: change type from const Uint8* to const bool*
+    
+    if (ks[SDL_SCANCODE_A]) { day -= rotSpeed* dt; SDL_Log("A"); } // pitch up
+    if (ks[SDL_SCANCODE_D]) { day += rotSpeed*dt; SDL_Log("D"); } //pitch down
+    if (ks[SDL_SCANCODE_W]) { dax -= rotSpeed*dt; SDL_Log("W"); } //pitch left
+    if (ks[SDL_SCANCODE_S]) { dax += rotSpeed*dt; SDL_Log("S"); } //pitch right
 
-	// normalize so diagonal speed == straight speed
-	float vx = (float)ax, vy = (float)ay;
-	float len = std::sqrt(vx * vx + vy * vy);
-	if (len > 0.0f) { vx /= len; vy /= len; }
+    if (ks[SDL_SCANCODE_Q]) { daz -= rotSpeed * dt; SDL_Log("Q"); }
+    if (ks[SDL_SCANCODE_E]) { daz += rotSpeed * dt; SDL_Log("E"); }
 
-	float speed = 200.0f;   // pixels per second
-	float dt = deltaTT; // compute from timing
-	auto* obj = object::getObjectById(ID_RECT1);
-	if (obj) obj->setPos(obj->getX() + vx * speed * dt, obj->getY() + vy * speed * dt);
+    
+    if (ks[SDL_SCANCODE_LEFT])  dx -= moveSpeed * dt;
+    if (ks[SDL_SCANCODE_RIGHT]) dx += moveSpeed * dt;
+    if (ks[SDL_SCANCODE_UP])    dy -= moveSpeed * dt;
+    if (ks[SDL_SCANCODE_DOWN])  dy += moveSpeed * dt;
+    
+    c.update(dax, day, daz);
+
+    if (auto* obj = object::getObjectById(ID_RECT1)) {
+        obj->moveBy(dx, dy);
+    }
+
 }
 
 float Input::getFrameDeltaTime(Uint64& last)

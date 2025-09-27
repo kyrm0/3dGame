@@ -127,7 +127,6 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="object.cpp" />
-    <ClCompile Include="Points.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
@@ -135,7 +134,6 @@
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="object.h" />
-    <ClInclude Include="Points.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="window.h" />
   </ItemGroup>

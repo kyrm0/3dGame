@@ -3,6 +3,7 @@
 #include "Rectangle.h"
 #include "Input.h"
 #include "Cube.h"
+#include <memory>
 
 
 static bool initSDL() {
@@ -23,7 +24,8 @@ static int _main(void) {
 
 	Window* window = new Window("3D Game", W, H, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
-	/*object::add(std::make_unique<Rectangle>(200, 200, 150, 150, SDL_Color{ 0,255,0,255 }, ID_RECT1));*/
+	object::add(std::make_unique<Rect>(200, 200, 150, 150, SDL_Color{ 0,255,0,255 }, ID_RECT1));
+
 
 
 	window->mainLoop();

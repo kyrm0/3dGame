@@ -6,10 +6,10 @@
 std::vector<std::unique_ptr<object>> object::objects{};
 std::unordered_map<int, size_t> object::ixById{};
 
-object::object(float x, float y, int width, int height, SDL_Color color, int id) 
+object::object(float x=0, float y=0, int width=0, int height=0, SDL_Color color={0,0,0}, int id=0)
 	: x(x), y(y), width(width), height(height), color(color), id_(id) {}
 
-void object::draw(SDL_Renderer* renderer)
+void object::draw(SDL_Renderer* renderer, bool onlyOutline)
 {
 	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 }
@@ -27,7 +27,7 @@ void object::add(std::unique_ptr<object>&& o)
 
 void object::drawObjects(SDL_Renderer* renderer)
 {
-	for (auto& obj : objects) if (obj) obj->draw(renderer);
+	for (auto& obj : objects) if (obj) obj->draw(renderer, false);
 
 	
 }

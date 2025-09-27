@@ -32,12 +32,16 @@ void Cube::update(double dax, double day, double daz)
 
 void Cube::draw(SDL_Renderer* r, bool perspective, double fov, double zcam) const
 {
+	SDL_SetRenderDrawColor(r, 0, 0, 0, 255);
+
 	double R[3][3];
+
+	makeIdentity(R);
 
 	rotXYZ(ax, ay, az, R);
 
 	for (size_t i = 0; i < model.size(); ++i) {
-		Vector3 v = mul(R, model[i]); // rotate
+		Vector3 v = mul(R, model[i]); /*model[i];*/ // rotate
 		v.x *= scale; v.y *= scale; v.z *= scale; // convert to world space
 		scratch[i] = project(v, cx, cy, fov, zcam, perspective); // project to 2D
 	}
@@ -49,6 +53,24 @@ void Cube::draw(SDL_Renderer* r, bool perspective, double fov, double zcam) cons
 			(int)std::lround(a.x), (int)std::lround(a.y),
 			(int)std::lround(b.x), (int)std::lround(b.y));
 	}
+}
+
+Vector2 Cube::getPos()
+{
+	return {cx, cy};
+}
+
+void Cube::updatePos(Vector2 newPos)
+{
+	cx = newPos.x;
+	cy = newPos.y;
+}
+
+void Cube::makeIdentity(double R[3][3])
+{
+	R[0][0] = 1; R[0][1] = 0; R[0][2] = 0;
+	R[1][0] = 0; R[1][1] = 1; R[1][2] = 0;
+	R[2][0] = 0; R[2][1] = 0; R[2][2] = 1;
 }
 
 Vector3 Cube::mul(const double m[3][3], const Vector3& v)
