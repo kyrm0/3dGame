@@ -25,6 +25,7 @@ static int _main(void) {
 	Window* window = new Window("3D Game", W, H, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
 	object::add(std::make_unique<Rect>(200, 200, 150, 150, SDL_Color{ 0,255,0,255 }, ID_RECT1));
+	Object3d::add(std::make_unique<Cube>(100, 400, 300, 1));
 
 
 

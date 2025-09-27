@@ -2,41 +2,21 @@
 #include <SDL3/SDL.h>
 #include <vector>
 #include <cmath>
+#include "Object3d.h"
 
-struct Vector3
-{
-	double x, y, z;
-};
 
-struct Vector2 {
-	double x, y;
-};
-
-class Cube
+class Cube : public Object3d
 {
 public:
-	Cube(double scale, double cx, double cy);
+	Cube(double scale, double cx, double cy, int id);
 
-	void update(double dax, double day, double daz);
-	void draw(SDL_Renderer* r, bool perspective=false, double fov=600.0, double zcam = 5.0) const;
-
-	Vector2 getPos();
-
-	void updatePos(Vector2 newPos);
-
-	void scaleBy(double dScale);
-	void updScale(double newScale);
+	void draw(SDL_Renderer* r, bool perspective=false, double fov=600.0, double zcam = 5.0, SDL_Color color = {0,0,0,255}) const override;
 
 private:
-	std::vector<Vector3> model;
-	int edges[12][2];
-	double scale, cx, cy;
-	mutable std::vector<Vector3> scratch; // transformed vertices
-	double ax, ay, az;
+	std::array<std::array<int, 2>, 12> edges;
 
 	static void makeIdentity(double R[3][3]);
 	static Vector3 mul(const double m[3][3], const Vector3& v);
 	static void rotXYZ(double ax, double ay, double az, double R[3][3]);
-	static Vector3 project(const Vector3& v, double cx, double cy, double fov, double zcam, bool perspective);
 };
 

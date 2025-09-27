@@ -1,7 +1,7 @@
 #include "Cube.h"
 
-Cube::Cube(double scale, double cx, double cy) 
-	:scale(scale), cx(cx), cy(cy), ax(0), ay(0), az(0)
+Cube::Cube(double scale, double cx, double cy, int id)
+	:Object3d(scale, cx, cy, id), edges()
 {
 	model = {
 		{-1,  1,  1}, { 1,  1,  1}, { 1, -1,  1}, {-1, -1,  1}, // front square z=+1
@@ -23,16 +23,9 @@ Cube::Cube(double scale, double cx, double cy)
 	scratch.resize(model.size());
 }
 
-void Cube::update(double dax, double day, double daz)
+void Cube::draw(SDL_Renderer* r, bool perspective, double fov, double zcam, SDL_Color color) const
 {
-	ax += dax;
-	ay += day;
-	az += daz;
-}
-
-void Cube::draw(SDL_Renderer* r, bool perspective, double fov, double zcam) const
-{
-	SDL_SetRenderDrawColor(r, 0, 0, 0, 255);
+	Object3d::draw(r, perspective, fov, zcam, color);
 
 	double R[3][3];
 
@@ -43,7 +36,7 @@ void Cube::draw(SDL_Renderer* r, bool perspective, double fov, double zcam) cons
 	for (size_t i = 0; i < model.size(); ++i) {
 		Vector3 v = mul(R, model[i]); /*model[i];*/ // rotate
 		v.x *= scale; v.y *= scale; v.z *= scale; // convert to world space
-		scratch[i] = project(v, cx, cy, fov, zcam, perspective); // project to 2D
+		scratch[i] = project(v, x, y, fov, zcam, perspective); // project to 2D
 	}
 
 	for (int i = 0; i < 12; ++i) {
@@ -55,26 +48,6 @@ void Cube::draw(SDL_Renderer* r, bool perspective, double fov, double zcam) cons
 	}
 }
 
-Vector2 Cube::getPos()
-{
-	return {cx, cy};
-}
-
-void Cube::updatePos(Vector2 newPos)
-{
-	cx = newPos.x;
-	cy = newPos.y;
-}
-
-void Cube::scaleBy(double dScale)
-{
-	this->scale += dScale;
-}
-
-void Cube::updScale(double newScale)
-{
-	this->scale = newScale;
-}
 
 void Cube::makeIdentity(double R[3][3])
 {
@@ -107,16 +80,4 @@ void Cube::rotXYZ(double ax, double ay, double az, double R[3][3])
 	// R = T1 * Rx
 	for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++)
 		R[i][j] = T1[i][0] * Rx[0][j] + T1[i][1] * Rx[1][j] + T1[i][2] * Rx[2][j];
-}
-
-Vector3 Cube::project(const Vector3& v, double cx, double cy, double fov, double zcam, bool perspective)
-{
-	if (!perspective) {
-		return { v.x + cx, v.y + cy, v.z };
-	}
-	double z = v.z + zcam;
-	double invz = z != 0 ? 1.0/ z : 0.0;
-	
-	return { v.x * fov * invz + cx, v.y * fov * invz + cy, z };
-
 }

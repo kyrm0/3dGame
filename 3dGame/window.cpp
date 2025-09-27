@@ -15,7 +15,6 @@ Window::Window(const char* title, int w, int h, SDL_WindowFlags flags)
 }
 void Window::mainLoop()
 {
-	Cube cube(100, this->width * 0.5, this->height * 0.5);
 	SDL_Log("made cube at %f %f", (double)this->width * 0.5, (double)this->height * 0.5);
 	bool isRunning = true;
 	Uint64 last = SDL_GetPerformanceCounter();
@@ -25,21 +24,19 @@ void Window::mainLoop()
 			if (event.type == SDL_EVENT_QUIT) {
 				return;
 			}
-			Input::processScrollWheelInput(event, cube);
+			Input::processScrollWheelInput(event);
 
 		}
 
 		
 		
 		float dt = Input::getFrameDeltaTime(last);
-		Input::processInput(event, cube, dt);
+		Input::processInput(event, dt);
 		
 		clearScreen();
-
-		SDL_SetRenderDrawColor(this->r, 0, 0, 0, 255);
 		// Render stuff here
 		object::drawObjects(this->r);
-		cube.draw(this->r, false);
+		Object3d::drawObjects(r);
 		
 		SDL_RenderPresent(this->r);
 	}

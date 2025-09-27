@@ -8,10 +8,10 @@ class Input
 {
 
 public:
-	static void processInput(SDL_Event e, Cube& c,float dt);
+	static void processInput(SDL_Event e,float dt);
 	static float getFrameDeltaTime(Uint64& last);
 	
-	static void processScrollWheelInput(SDL_Event e, Cube& c);
+	static void processScrollWheelInput(SDL_Event e);
 
 };
 

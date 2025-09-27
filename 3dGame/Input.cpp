@@ -1,13 +1,13 @@
 #include "Input.h"
 
-void Input::processInput(SDL_Event e, Cube& c, float dt)
+void Input::processInput(SDL_Event e, float dt)
 {
     SDL_PumpEvents(); // ensure keyboard state is current
     const bool* ks = SDL_GetKeyboardState(nullptr);
     double rotSpeed = 1.5;
     double dax = 0, day = 0, daz = 0;
     double moveSpeed = 50.0;
-    float dx = 0, dy = 0;
+    double dx = 0, dy = 0;
 
     // Fix: change type from const Uint8* to const bool*
     
@@ -25,7 +25,9 @@ void Input::processInput(SDL_Event e, Cube& c, float dt)
     if (ks[SDL_SCANCODE_UP])    dy -= moveSpeed * dt;
     if (ks[SDL_SCANCODE_DOWN])  dy += moveSpeed * dt;
     
-    c.update(dax, day, daz);
+    if (auto* obj = Object3d::getObjectById(1)) {
+        obj->update(dax, day, daz);
+    }
 
     if (auto* obj = object::getObjectById(ID_RECT1)) {
         obj->moveBy(dx, dy);
@@ -43,11 +45,13 @@ float Input::getFrameDeltaTime(Uint64& last)
 	return dt;
 }
 
-void Input::processScrollWheelInput(SDL_Event e, Cube& c)
+void Input::processScrollWheelInput(SDL_Event e)
 {
 
 
     if (e.type == SDL_EVENT_MOUSE_WHEEL) {
-        c.scaleBy(e.wheel.y);
+        if (auto* obj = Object3d::getObjectById(1)) {
+            obj->scaleBy(e.wheel.y);
+        }
     }
 }
