@@ -42,3 +42,12 @@ float Input::getFrameDeltaTime(Uint64& last)
 	last = now;
 	return dt;
 }
+
+void Input::processScrollWheelInput(SDL_Event e, Cube& c)
+{
+
+
+    if (e.type == SDL_EVENT_MOUSE_WHEEL) {
+        c.scaleBy(e.wheel.y);
+    }
+}

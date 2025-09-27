@@ -25,6 +25,7 @@ void Window::mainLoop()
 			if (event.type == SDL_EVENT_QUIT) {
 				return;
 			}
+			Input::processScrollWheelInput(event, cube);
 
 		}
 

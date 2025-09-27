@@ -66,6 +66,16 @@ void Cube::updatePos(Vector2 newPos)
 	cy = newPos.y;
 }
 
+void Cube::scaleBy(double dScale)
+{
+	this->scale += dScale;
+}
+
+void Cube::updScale(double newScale)
+{
+	this->scale = newScale;
+}
+
 void Cube::makeIdentity(double R[3][3])
 {
 	R[0][0] = 1; R[0][1] = 0; R[0][2] = 0;

@@ -24,6 +24,9 @@ public:
 
 	void updatePos(Vector2 newPos);
 
+	void scaleBy(double dScale);
+	void updScale(double newScale);
+
 private:
 	std::vector<Vector3> model;
 	int edges[12][2];
