@@ -4,7 +4,7 @@ Pyramid::Pyramid(double scale, double x, double y, int id)
 	:Object3d(scale, x, y, id), edges()
 {
 	model = {
-	{0, -1, 0},   // apex (top)
+	{0, 1, 0},   // apex (top)
 	{-1, 0, -1}, // base back-left
 	{1, 0, -1},  // base back-right
 	{1, 0, 1},   // base front-right
@@ -20,12 +20,8 @@ Pyramid::Pyramid(double scale, double x, double y, int id)
 
 void Pyramid::draw(SDL_Renderer* r, bool perspective, double fov, double zcam, SDL_Color color) const
 {
+	color = { 255,0,0,255 };
 	Object3d::draw(r, perspective, fov, zcam, color);
-	double R[3][3];
-
-	makeIdentity(R);
-
-	rotXYZ(ax, ay, az, R);
 
 	
 }

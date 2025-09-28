@@ -73,12 +73,12 @@ void Object3d::updScale(double newScale)
 Vector3 Object3d::project(const Vector3& v, double cx, double cy, double fov, double zcam, bool perspective)
 {
 	if (!perspective) {
-		return { v.x + cx, v.y + cy, v.z };
+		return { v.x + cx, -v.y + cy, v.z }; // use -v.y because cords in window pos at top are -
 	}
 	double z = v.z + zcam;
 	double invz = z != 0 ? 1.0 / z : 0.0;
 
-	return { v.x * fov * invz + cx, v.y * fov * invz + cy, z };
+	return { v.x * fov * invz + cx, -v.y * fov * invz + cy, z }; // use -v.y because cords in window pos at top are -
 }
 
 Vector3 Object3d::mul(const double m[3][3], const Vector3& v)

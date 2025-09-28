@@ -27,7 +27,7 @@ static int _main(void) {
 
 	object::add(std::make_unique<Rect>(200, 200, 150, 150, SDL_Color{ 0,255,0,255 }, ID_RECT1));
 	Object3d::add(std::make_unique<Cube>(100, 400, 300, 1));
-	Object3d::add(std::make_unique<Pyramid>(50, 200, 150, 2));
+	Object3d::add(std::make_unique<Pyramid>(100, 400, 200, 2));
 
 
 
